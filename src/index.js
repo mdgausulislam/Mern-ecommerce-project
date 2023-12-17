@@ -2,13 +2,10 @@ const express = require("express");
 const env = require("dotenv");
 const app = express();
 const mongoose = require('mongoose');
-const UserRouter = require("./routes/userRoutes");
+const AuthRouter = require("./routes/authRoutes");
+// const UserRouter = require("./routes/userRoutes");
 // Environment setup
 env.config();
-
-//routes
-
-
 
 
 // Connect to MongoDB
@@ -16,11 +13,20 @@ mongoose.connect(`mongodb+srv://${process.env.MONGODB_USER}:${process.env.MONGOD
     .then(() => console.log('Database connected!'))
     .catch((err) => console.error('Database connection error:', err));
 
+
+
 // Middleware to parse incoming request bodies
-app.use(express.json()); // To parse JSON bodies
+app.use(express.json()); 
 app.use(express.urlencoded({ extended: true }));
+
+
+
 //routes
-app.use('/api', UserRouter);
+app.use('/api', AuthRouter);
+
+
+
+
 
 app.get("/", (req, res, next) => {
     res.status(200).json({
