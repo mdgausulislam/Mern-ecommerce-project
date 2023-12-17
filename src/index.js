@@ -4,6 +4,7 @@ const app = express();
 const mongoose = require('mongoose');
 const AuthRouter = require("./routes/authRoutes");
 // const UserRouter = require("./routes/userRoutes");
+const adminRouter = require("./routes/admin/adminAuthRoutes");
 // Environment setup
 env.config();
 
@@ -23,6 +24,7 @@ app.use(express.urlencoded({ extended: true }));
 
 //routes
 app.use('/api', AuthRouter);
+app.use('/api', adminRouter);
 
 
 
