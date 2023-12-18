@@ -3,14 +3,14 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
 const signUp = async (req, res) => {
-    const { firstName, lastName, username, email, password } = req.body;
+    const { firstName, lastName, email, password } = req.body;
     const existingUser = await User.findOne({ email });
     if (existingUser) {
         return res.status(400).json({ message: "user already registered" })
     }
     const hashedPassword = bcrypt.hashSync(password, 10);
     console.log(hashedPassword);
-    const newUser = new User({ firstName, lastName, username, email, password: hashedPassword })
+    const newUser = new User({ firstName, lastName, email, password: hashedPassword })
     const savedUser = await newUser.save();
     if (savedUser) {
         return res.status(201).json({ message: "user create successfully" });
@@ -32,7 +32,7 @@ const signin = async (req, res) => {
     }
 
     const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" })
-    return res.status(200).json({ token, user: { _id: user._id, email: user.email, firstName: user.firstName, lastName: user.lastName, role: user.role, username: user.username } });
+    return res.status(200).json({ token, user: { _id: user._id, email: user.email, firstName: user.firstName, lastName: user.lastName, role: user.role } });
 
 }
 
