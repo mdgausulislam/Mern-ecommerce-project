@@ -6,6 +6,7 @@ const AuthRouter = require("./routes/authRoutes");
 const categoryRouter = require("./routes/categoryRoutes");
 const adminRouter = require("./routes/admin/adminAuthRoutes");
 const productRouter = require("./routes/productsRoutes");
+const cartRouter = require("./routes/cartRoutes");
 // Environment setup
 env.config();
 
@@ -28,6 +29,7 @@ app.use('/api', AuthRouter);
 app.use('/api', adminRouter);
 app.use('/api', categoryRouter);
 app.use('/api', productRouter);
+app.use('/api', cartRouter);
 
 
 
