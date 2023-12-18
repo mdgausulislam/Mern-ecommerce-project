@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const AuthRouter = require("./routes/authRoutes");
 const categoryRouter = require("./routes/categoryRoutes");
 const adminRouter = require("./routes/admin/adminAuthRoutes");
+const productRouter = require("./routes/productsRoutes");
 // Environment setup
 env.config();
 
@@ -26,6 +27,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api', AuthRouter);
 app.use('/api', adminRouter);
 app.use('/api', categoryRouter);
+app.use('/api', productRouter);
 
 
 
