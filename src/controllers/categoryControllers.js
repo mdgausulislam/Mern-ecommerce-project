@@ -6,7 +6,7 @@ const CreateCategory = async (req, res) => {
 
     const categoryObj = {
         name,
-        slug: slugify(slug)
+        slug: slugify(name)
     }
     if (parentId) {
         categoryObj.parentId = parentId
@@ -14,7 +14,14 @@ const CreateCategory = async (req, res) => {
     const newCategory = new Category(categoryObj);
     const saveCategory = await newCategory.save();
     res.status(201).json({ Category: saveCategory })
-
-
 }
-module.exports = { CreateCategory }
+
+
+const getCategory = async (req, res) => {
+    const categories = await Category.find({})
+    res.status(200).json({ categories })
+}
+
+
+
+module.exports = { CreateCategory, getCategory }
