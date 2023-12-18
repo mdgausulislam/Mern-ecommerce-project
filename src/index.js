@@ -3,7 +3,7 @@ const env = require("dotenv");
 const app = express();
 const mongoose = require('mongoose');
 const AuthRouter = require("./routes/authRoutes");
-// const UserRouter = require("./routes/userRoutes");
+const categoryRouter = require("./routes/categoryRoutes");
 const adminRouter = require("./routes/admin/adminAuthRoutes");
 // Environment setup
 env.config();
@@ -17,7 +17,7 @@ mongoose.connect(`mongodb+srv://${process.env.MONGODB_USER}:${process.env.MONGOD
 
 
 // Middleware to parse incoming request bodies
-app.use(express.json()); 
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 
@@ -25,7 +25,7 @@ app.use(express.urlencoded({ extended: true }));
 //routes
 app.use('/api', AuthRouter);
 app.use('/api', adminRouter);
-
+app.use('/api', categoryRouter);
 
 
 
