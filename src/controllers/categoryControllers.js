@@ -2,12 +2,18 @@ const Category = require("../models/categoryModel");
 const slugify = require('slugify');
 
 const CreateCategory = async (req, res) => {
-    const { name, slug, parentId } = req.body;
+    const { name, slug, parentId, categoryImage } = req.body;
+
 
     const categoryObj = {
         name,
-        slug: slugify(name)
+        slug: slugify(name),
     }
+
+    if (req.file) {
+        categoryObj.categoryImage = process.env.API + "/public/" + req.file.filename;
+    }
+
     if (parentId) {
         categoryObj.parentId = parentId
     }
