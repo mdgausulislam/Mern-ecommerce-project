@@ -8,7 +8,7 @@ const router = express.Router();
 
 router.post('/admin/signup', validationSignupRequest, isRequestValided, signUp);
 router.post('/admin/signin', validationSigninRequest, isRequestValided, signin);
-router.post('/admin/signout', verifyToken, signout);
+router.post('/admin/signout', signout);
 
 
 
