@@ -36,11 +36,16 @@ const signin = async (req, res) => {
     if (user.role !== 'admin') {
         return res.status(403).json({ message: "Access denied. Not an admin." });
     }
-
+    res.cookie('token', token, { expiresIn: '1h' })
     return res.status(200).json({ token, user: { _id: user._id, email: user.email, firstName: user.firstName, lastName: user.lastName, role: user.role } });
 
 }
 
+const signout = (req, res) => {
+    res.clearCookie('token');
+    res.status(200).json({ message: "signout successfully...!" })
+}
 
 
-module.exports = { signUp, signin }
+
+module.exports = { signUp, signin, signout }
