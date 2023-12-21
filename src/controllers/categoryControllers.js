@@ -1,22 +1,24 @@
 const Category = require("../models/categoryModel");
 const slugify = require('slugify');
+const shortid = require("shortid");
 
 const CreateCategory = async (req, res) => {
-    const { name, slug, parentId, categoryImage } = req.body;
-
 
     const categoryObj = {
-        name,
-        slug: slugify(name),
-    }
+        name: req.body.name,
+        slug: `${slugify(req.body.name)}-${shortid.generate()}`,
+        createdBy: req.user._id,
+    };
 
     if (req.file) {
         categoryObj.categoryImage = process.env.API + "/public/" + req.file.filename;
     }
 
-    if (parentId) {
-        categoryObj.parentId = parentId
+    if (req.body.parentId) {
+        categoryObj.parentId = req.body.parentId;
     }
+    console.log(req.body.parentId);
+
     const newCategory = new Category(categoryObj);
     const saveCategory = await newCategory.save();
     res.status(201).json({ Category: saveCategory })
@@ -27,9 +29,9 @@ function createCategories(categories, parentId = null) {
     const categoryList = [];
     let category;
     if (parentId == null) {
-        category = categories.filter(cat => cat.parentId == undefined)
+        category = categories.filter((cat) => cat.parentId == undefined)
     } else {
-        category = categories.filter(cat => cat.parentId == parentId)
+        category = categories.filter((cat) => cat.parentId == parentId)
     }
 
     for (let cate of category) {
@@ -39,7 +41,7 @@ function createCategories(categories, parentId = null) {
             slug: cate.slug,
             parentId: cate.parentId,
             children: createCategories(categories, cate._id)
-        })
+        });
     }
     return categoryList;
 }
