@@ -11,10 +11,10 @@ const categorySchema = new mongoose.Schema({
         unique: true,
     },
     categoryImage: {
-        type: String
+        type: String,
     },
     parentId: {
-        type: String
+        type: String,
     }
 
 
