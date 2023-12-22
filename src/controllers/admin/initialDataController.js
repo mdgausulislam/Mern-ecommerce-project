@@ -1,7 +1,6 @@
 const categoryModel = require("../../models/categoryModel");
 const productModel = require("../../models/productModel");
 
-
 function createCategories(categories, parentId = null) {
     const categoryList = [];
     let category;
@@ -26,18 +25,15 @@ function createCategories(categories, parentId = null) {
 const initialDataController = async (req, res) => {
     try {
         const categories = await categoryModel.find({}).exec();
-        console.log(categories); // Logging the retrieved categories
         const products = await productModel.find({})
             .select('_id name price quantity slug description productPictures category')
             .populate({ path: 'category', select: '_id name' })
             .exec();
-        console.log(products); // Logging the retrieved products
         res.status(200).json({
             categories: createCategories(categories),
             products,
         });
     } catch (error) {
-        // Handle errors here
         res.status(500).json({ error: error.message });
     }
 };

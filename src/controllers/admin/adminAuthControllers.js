@@ -1,6 +1,8 @@
 const User = require("../../models/userModels");
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const shortid = require('shortid');
+
 
 const signUp = async (req, res) => {
     const { firstName, lastName, email, password } = req.body;
@@ -9,8 +11,7 @@ const signUp = async (req, res) => {
         return res.status(400).json({ message: "Admin already registered" })
     }
     const hashedPassword = bcrypt.hashSync(password, 10);
-    console.log(hashedPassword);
-    const newUser = new User({ firstName, lastName, email, password: hashedPassword, role: "admin" })
+    const newUser = new User({ firstName, lastName, email, password: hashedPassword, username: shortid.generate(), role: "admin" })
     const savedUser = await newUser.save();
     if (savedUser) {
         return res.status(201).json({ message: "Admin create successfully" });

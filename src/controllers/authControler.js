@@ -10,7 +10,7 @@ const signUp = async (req, res) => {
     }
     const hashedPassword = bcrypt.hashSync(password, 10);
     console.log(hashedPassword);
-    const newUser = new User({ firstName, lastName, email, password: hashedPassword })
+    const newUser = new User({ firstName, lastName, username: shortid.generate(), email, password: hashedPassword })
     const savedUser = await newUser.save();
     if (savedUser) {
         return res.status(201).json({ message: "user create successfully" });
