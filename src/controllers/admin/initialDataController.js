@@ -28,7 +28,8 @@ const initialDataController = async (req, res) => {
         const categories = await categoryModel.find({}).exec();
         console.log(categories); // Logging the retrieved categories
         const products = await productModel.find({})
-            .select('_id name price quantity slug description productPicture category')
+            .select('_id name price quantity slug description productPictures category')
+            .populate({ path: 'category', select: '_id name' })
             .exec();
         console.log(products); // Logging the retrieved products
         res.status(200).json({
