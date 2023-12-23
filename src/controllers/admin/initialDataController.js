@@ -33,9 +33,11 @@ const initialDataController = async (req, res) => {
             categories: createCategories(categories),
             products,
         });
+
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 };
 
 module.exports = { initialDataController };
+
