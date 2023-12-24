@@ -5,7 +5,7 @@ const verifyAdmin = require("../middleware/verifyAdmin");
 const multer = require('multer');
 const shortid = require('shortid');
 const path = require('path');
-const { addCategory, getCategories, updateCategories } = require("../controllers/categoryControllers");
+const { addCategory, getCategories, updateCategories, deleteCategories } = require("../controllers/categoryControllers");
 
 
 const storage = multer.diskStorage({
@@ -30,5 +30,6 @@ router.post(
 );
 router.get('/category/getcategory', getCategories)
 router.post("/category/update", upload.array("categoryImage"), updateCategories);
+router.post("/category/delete", deleteCategories);
 
 module.exports = router;
