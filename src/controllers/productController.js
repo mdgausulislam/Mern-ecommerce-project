@@ -8,7 +8,7 @@ const CreateProduct = async (req, res) => {
 
     if (req.files.length > 0) {
         productPictures = req.files.map((file) => {
-            return { img: file.location };
+            return { img: file.filename };
         });
     }
 
@@ -26,7 +26,13 @@ const CreateProduct = async (req, res) => {
 
         const savedProduct = await product.save();
         if (savedProduct) {
-            res.status(201).json({ product: savedProduct, files: req.files });
+            const updatedProduct = await Product.findById(savedProduct._id)
+                .populate('productPictures', 'img')
+                .exec();
+
+            res.status(201).json({ product: updatedProduct, files: req.files });
+        } else {
+            res.status(500).json({ error: 'Failed to save product' });
         }
     } catch (error) {
         res.status(400).json({ error: error.message });
@@ -37,13 +43,13 @@ const CreateProduct = async (req, res) => {
 const getProductsBySlug = async (req, res) => {
 
     const { slug } = req.params;
-    console.log("Received slug:", slug);
+    // console.log("Received slug:", slug);
 
     const category = await categoryModel.findOne({ slug: { $regex: new RegExp(slug, 'i') } }).select('_id').exec();
-    console.log("Retrieved category:", category);
+    // console.log("Retrieved category:", category);
 
     if (!category) {
-        console.log("Category not found");
+        // console.log("Category not found");
         return res.status(404).json({ error: "Category not found" });
     }
 
@@ -66,9 +72,5 @@ const getProductsBySlug = async (req, res) => {
         res.status(200).json({ products: [], productByPrice: {} });
     }
 };
-
-
-
-
 
 module.exports = { CreateProduct, getProductsBySlug }
