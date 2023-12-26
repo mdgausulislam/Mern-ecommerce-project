@@ -33,7 +33,33 @@ const createPage = async (req, res) => {
     }
 };
 
-module.exports = { createPage };
+
+const getPage = async (req, res) => {
+    try {
+        const { category, type } = req.params;
+        console.log("category:", category);
+        console.log('type:', type);
+
+        if (type === "page") {
+            const page = await Page.findOne({ category }).exec();
+            console.log("page received:", page);
+
+            if (!page) {
+                return res.status(404).json({ error: "Page not found" });
+            }
+
+            return res.status(200).json({ page });
+        } else {
+            return res.status(400).json({ error: "Invalid request type" });
+        }
+    } catch (error) {
+        console.error("Error in getPage:", error);
+        return res.status(500).json({ error: "Internal server error" });
+    }
+};
+
+
+module.exports = { createPage, getPage };
 
 
 
