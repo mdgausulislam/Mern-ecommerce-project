@@ -32,6 +32,11 @@ const signin = async (req, res) => {
     }
 
     const token = jwt.sign({ _id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: "1h" })
+
+    if (user.role !== 'user') {
+        return res.status(403).json({ message: "Access denied. Not an user." });
+    }
+
     return res.status(200).json({ token, user: { _id: user._id, email: user.email, firstName: user.firstName, lastName: user.lastName, role: user.role } });
 
 }
