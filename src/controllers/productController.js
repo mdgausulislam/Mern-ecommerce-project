@@ -74,22 +74,28 @@ const getProductsBySlug = async (req, res) => {
 };
 
 
-const getProductDetailsById = (req, res) => {
+const getProductDetailsById = async (req, res) => {
     const { productId } = req.params;
-    if (!productId) {
-        return res.status(400).json({ error: "Params required" });
-    }
+    console.log('Received productId:', productId);
 
-    Product.findOne({ _id: productId }).exec((error, product) => {
-        if (error) {
+    if (productId) {
+        try {
+            const product = await Product.findOne({ _id: productId }).exec();
+
+            if (!product) {
+                console.log('Product not found');
+                return res.status(404).json({ error: "Product not found" });
+            }
+            res.status(200).json({ product });
+        } catch (error) {
+            console.error('Database error:', error);
             return res.status(400).json({ error });
         }
-        if (!product) {
-            return res.status(404).json({ error: "Product not found" });
-        }
-        res.status(200).json({ product });
-    });
+    } else {
+        return res.status(400).json({ error: "Params required" });
+    }
 };
+
 
 
 module.exports = { CreateProduct, getProductsBySlug, getProductDetailsById }
