@@ -72,5 +72,5 @@ const userAddressSchema = new mongoose.Schema(
     { timestamps: true }
 );
 
-mongoose.model("Address", addressSchema);
+// mongoose.model("Address", addressSchema);
 module.exports = mongoose.model("UserAddress", userAddressSchema);

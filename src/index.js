@@ -13,6 +13,7 @@ const productRouter = require("./routes/productsRoutes");
 const cartRouter = require("./routes/cartRoutes");
 const initialDataRouter = require("./routes/admin/initialData");
 const pageRouter = require("./routes/admin/pageAdminRoutes");
+const addressRouter = require("./routes/addressRoutes");
 // Environment setup
 env.config();
 
@@ -40,6 +41,7 @@ app.use('/api', productRouter);
 app.use('/api', cartRouter);
 app.use('/api', initialDataRouter);
 app.use('/api', pageRouter);
+app.use('/api', addressRouter);
 
 
 
