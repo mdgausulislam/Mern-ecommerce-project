@@ -7,9 +7,6 @@ function runUpdate(condition, updateData) {
 const addItemToCart = async (req, res) => {
     try {
 
-        if (!Array.isArray(req.body.cartItems)) {
-            return res.status(400).json({ error: "req.body.cartItems must be an array" });
-        }
         const existingCart = await Cart.findOne({ user: req.user._id });
 
         if (existingCart) {
