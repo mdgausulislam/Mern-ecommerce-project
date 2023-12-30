@@ -41,6 +41,4 @@ const signin = async (req, res) => {
 
 }
 
-
-
 module.exports = { signUp, signin }
