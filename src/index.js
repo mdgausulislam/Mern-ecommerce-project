@@ -15,6 +15,7 @@ const initialDataRouter = require("./routes/admin/initialData");
 const pageRouter = require("./routes/admin/pageAdminRoutes");
 const addressRouter = require("./routes/addressRoutes");
 const orderRouter = require("./routes/orderRoutes");
+const orderAdminRouter = require("./routes/admin/orderRoutes");
 // Environment setup
 env.config();
 
@@ -44,6 +45,7 @@ app.use('/api', initialDataRouter);
 app.use('/api', pageRouter);
 app.use('/api', addressRouter);
 app.use('/api', orderRouter);
+app.use('/api', orderAdminRouter);
 
 
 

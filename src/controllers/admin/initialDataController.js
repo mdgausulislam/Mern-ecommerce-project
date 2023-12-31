@@ -1,13 +1,59 @@
-const categoryModel = require("../../models/categoryModel");
-const productModel = require("../../models/productModel");
+// const categoryModel = require("../../models/categoryModel");
+// const productModel = require("../../models/productModel");
+
+// function createCategories(categories, parentId = null) {
+//     const categoryList = [];
+//     let category;
+//     if (parentId == null) {
+//         category = categories.filter((cat) => cat.parentId == undefined)
+//     } else {
+//         category = categories.filter((cat) => cat.parentId == parentId)
+//     }
+
+//     for (let cate of category) {
+//         categoryList.push({
+//             _id: cate._id,
+//             name: cate.name,
+//             slug: cate.slug,
+//             parentId: cate.parentId,
+//             type: cate.type,
+//             children: createCategories(categories, cate._id)
+//         });
+//     }
+//     return categoryList;
+// }
+
+// const initialDataController = async (req, res) => {
+//     try {
+//         const categories = await categoryModel.find({}).exec();
+//         const products = await productModel.find({})
+//             .select('_id name price quantity slug description productPictures category')
+//             .populate({ path: 'category', select: '_id name' })
+//             .exec();
+//         res.status(200).json({
+//             categories: createCategories(categories),
+//             products,
+//         });
+
+//     } catch (error) {
+//         res.status(500).json({ error: error.message });
+//     }
+// };
+
+// module.exports = { initialDataController };
+
+
+const Category = require("../../models/categoryModel");
+const Product = require("../../models/productModel");
+const Order = require("../../models/orderModel");
 
 function createCategories(categories, parentId = null) {
     const categoryList = [];
     let category;
     if (parentId == null) {
-        category = categories.filter((cat) => cat.parentId == undefined)
+        category = categories.filter((cat) => cat.parentId == undefined);
     } else {
-        category = categories.filter((cat) => cat.parentId == parentId)
+        category = categories.filter((cat) => cat.parentId == parentId);
     }
 
     for (let cate of category) {
@@ -17,28 +63,27 @@ function createCategories(categories, parentId = null) {
             slug: cate.slug,
             parentId: cate.parentId,
             type: cate.type,
-            children: createCategories(categories, cate._id)
+            children: createCategories(categories, cate._id),
         });
     }
+
     return categoryList;
 }
 
 const initialDataController = async (req, res) => {
-    try {
-        const categories = await categoryModel.find({}).exec();
-        const products = await productModel.find({})
-            .select('_id name price quantity slug description productPictures category')
-            .populate({ path: 'category', select: '_id name' })
-            .exec();
-        res.status(200).json({
-            categories: createCategories(categories),
-            products,
-        });
-
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
+    const categories = await Category.find({}).exec();
+    const products = await Product.find({})
+        .select("_id name price quantity slug description productPictures category")
+        .populate({ path: "category", select: "_id name" })
+        .exec();
+    const orders = await Order.find({})
+        .populate("items.productId", "name")
+        .exec();
+    res.status(200).json({
+        categories: createCategories(categories),
+        products,
+        orders,
+    });
 };
-
 module.exports = { initialDataController };
 

@@ -1,5 +1,5 @@
 const cartModel = require("../models/cartModel");
-const order = require("../models/orderModel");
+const orderModel = require("../models/orderModel");
 
 exports.addOrder = async (req, res) => {
   try {
@@ -37,10 +37,9 @@ exports.addOrder = async (req, res) => {
 
 
 
-
 exports.getOrders = async (req, res) => {
     try {
-      const orders = await order.find({ user: req.user._id })
+      const orders = await orderModel.find({ user: req.user._id })
         .select("_id paymentStatus paymentType orderStatus items")
         .populate("items.productId", "_id name productPictures")
         .exec();
