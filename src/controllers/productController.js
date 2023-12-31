@@ -63,10 +63,34 @@ const getProductsBySlug = async (req, res) => {
             under20k: products.filter(product => product.price > 15000 && product.price <= 20000),
             under30k: products.filter(product => product.price > 20000 && product.price <= 30000),
         };
+        const priceRange = {
+            under5k: 5000,
+            under10k: 10000,
+            under15k: 15000,
+            under20k: 20000,
+            under30k: 30000,
+        };
+
+          // const productByPrice = {
+        //     under10k: products.filter(product => product.price <= 10000),
+        //     under20k: products.filter(product => product.price > 10000 && product.price <= 20000),
+        //     under30k: products.filter(product => product.price > 20000 && product.price <= 30000),
+        //     under40k: products.filter(product => product.price > 30000 && product.price <= 40000),
+        //     under50k: products.filter(product => product.price > 40000 && product.price <= 50000),
+        // };
+        // const priceRange = {
+        //     under10k: 10000,
+        //     under20k: 20000,
+        //     under30k: 30000,
+        //     under40k: 40000,
+        //     under50k: 50000,
+        // };
 
         res.status(200).json({
             products,
+            priceRange,
             productByPrice,
+
         });
     } else {
         res.status(200).json({ products: [], productByPrice: {} });
