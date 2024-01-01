@@ -71,7 +71,7 @@ const getProductsBySlug = async (req, res) => {
             under30k: 30000,
         };
 
-          // const productByPrice = {
+        // const productByPrice = {
         //     under10k: products.filter(product => product.price <= 10000),
         //     under20k: products.filter(product => product.price > 10000 && product.price <= 20000),
         //     under30k: products.filter(product => product.price > 20000 && product.price <= 30000),
@@ -117,5 +117,33 @@ const getProductDetailsById = async (req, res) => {
 };
 
 
+const deleteProductById = async (req, res) => {
+    const { productId } = req.body.payload;
+    if (productId) {
+        try {
+            const result = await Product.deleteOne({ _id: productId }).exec();
+            res.status(202).json({ result });
+        } catch (error) {
+            res.status(400).json({ error });
+        }
+    } else {
+        res.status(400).json({ error: "Params required" });
+    }
+};
 
-module.exports = { CreateProduct, getProductsBySlug, getProductDetailsById }
+const getProducts = async (req, res) => {
+    try {
+        const products = await Product.find({ createdBy: req.user._id })
+            .select("_id name price quantity slug description productPictures category")
+            .populate({ path: "category", select: "_id name" })
+            .exec();
+
+        res.status(200).json({ products });
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+};
+
+
+
+module.exports = { CreateProduct, getProductsBySlug, getProductDetailsById, deleteProductById, getProducts }

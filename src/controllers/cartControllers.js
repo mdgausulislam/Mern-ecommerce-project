@@ -81,7 +81,7 @@ const getCartItems = async (req, res) => {
     }
 };
 
-
+//TODO:not connect edit this frontend 
 const removeCartItems = async (req, res) => {
     try {
         const { productId } = req.body.payload;
