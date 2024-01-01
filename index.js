@@ -6,16 +6,16 @@ const path = require('path');
 const cors = require('cors')
 
 
-const AuthRouter = require("./routes/authRoutes");
-const categoryRouter = require("./routes/categoryRoutes");
-const adminRouter = require("./routes/admin/adminAuthRoutes");
-const productRouter = require("./routes/productsRoutes");
-const cartRouter = require("./routes/cartRoutes");
-const initialDataRouter = require("./routes/admin/initialData");
-const pageRouter = require("./routes/admin/pageAdminRoutes");
-const addressRouter = require("./routes/addressRoutes");
-const orderRouter = require("./routes/orderRoutes");
-const orderAdminRouter = require("./routes/admin/orderRoutes");
+const AuthRouter = require("./src/routes/authRoutes");
+const categoryRouter = require("./src/routes/categoryRoutes");
+const adminRouter = require("./src/routes/admin/adminAuthRoutes");
+const productRouter = require("./src/routes/productsRoutes");
+const cartRouter = require("./src/routes/cartRoutes");
+const initialDataRouter = require("./src/routes/admin/initialData");
+const pageRouter = require("./src/routes/admin/pageAdminRoutes");
+const addressRouter = require("./src/routes/addressRoutes");
+const orderRouter = require("./src/routes/orderRoutes");
+const orderAdminRouter = require("./src/routes/admin/orderRoutes");
 // Environment setup
 env.config();
 
@@ -46,7 +46,6 @@ app.use('/api', pageRouter);
 app.use('/api', addressRouter);
 app.use('/api', orderRouter);
 app.use('/api', orderAdminRouter);
-
 
 
 
